@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Mapa del Mundo Conocido — Líneas Ley</title>
 <style>
   :root {
@@ -206,6 +207,33 @@
   #routePanel .route-tab.active { opacity:1; background: color-mix(in srgb, var(--tabColor) 18%, transparent); font-weight:bold; }
   #routePanel .route-tab.add { border-style:dashed; color:#9aa; border-color:#9aa; opacity:0.8; }
   #routePanel .route-distance { font-size: 10.5px; color: #d9c48a; margin-bottom: 6px; }
+
+  @media (max-width: 768px) {
+    #hud { 
+      top: auto; bottom: 14px; left: 14px; width: calc(100vw - 70px);
+      font-size: 10px; padding: 6px 10px; z-index: 10;
+    }
+    #hud > div:first-child, #hud > div:nth-child(2) { display: none; } /* Ocultar texto largo en móvil */
+    #searchBox { margin-top: 0; }
+    
+    #controls {
+      top: 10px; left: 50%; transform: translateX(-50%); width: calc(100vw - 20px);
+      justify-content: center; z-index: 10;
+    }
+    
+    #panel {
+      width: calc(100vw - 20px); top: 50px; right: 10px; max-height: calc(100vh - 120px);
+      padding: 12px 14px; z-index: 20;
+    }
+    
+    #routePanel {
+      bottom: 65px; width: calc(100vw - 20px); z-index: 15;
+    }
+    
+    #legend, #minimap { display: none; }
+    
+    #zoomctl { bottom: 14px; right: 10px; z-index: 10; }
+  }
 </style>
 </head>
 <body>
