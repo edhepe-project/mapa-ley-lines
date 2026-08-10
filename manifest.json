@@ -1,0 +1,27 @@
+{
+  "name": "Mapa del Mundo Conocido",
+  "short_name": "Líneas Ley",
+  "description": "Herramienta narrativa para cartografiar el viaje de los primeros seres feéricos a través de las líneas ley.",
+  "start_url": "/mapa-ley-lines/",
+  "scope": "/mapa-ley-lines/",
+  "display": "standalone",
+  "background_color": "#05080a",
+  "theme_color": "#05080a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "lang": "es"
+}

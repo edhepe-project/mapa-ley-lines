@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#05080a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Líneas Ley">
+<link rel="apple-touch-icon" href="icon-512.png">
+<link rel="manifest" href="manifest.json">
 <title>Mapa del Mundo Conocido — Líneas Ley</title>
 <style>
   :root {
@@ -305,5 +311,15 @@
 </div>
 
 <script type="module" src="./js/renderer.js"></script>
+<script>
+  // Registrar el Service Worker para habilitar la instalación como PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((reg) => console.log('SW registrado:', reg.scope))
+        .catch((err) => console.warn('SW error:', err));
+    });
+  }
+</script>
 </body>
 </html>
