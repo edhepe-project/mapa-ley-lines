@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mapa del Mundo Conocido — Líneas Ley</title>
+<style>
+  :root {
+    --bg: #05080a;
+    --parchment: #6b5b3e;
+    --parchment-dark: #241b10;
+    --ice: #9fd8e8;
+    --cyan: #5ef1ff;
+    --gold: #ffcf5e;
+    --panel-bg: rgba(10, 14, 16, 0.92);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    background: var(--bg); overflow: hidden;
+    font-family: 'Georgia', 'Palatino Linotype', serif;
+    color: #cfe8ee;
+  }
+  #map { display: block; width: 100vw; height: 100vh; cursor: grab; }
+  #map.dragging { cursor: grabbing; }
+
+  #hud {
+    position: fixed; top: 14px; left: 14px;
+    background: var(--panel-bg);
+    border: 1px solid rgba(94, 241, 255, 0.35);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    pointer-events: none;
+    box-shadow: 0 0 18px rgba(94,241,255,0.08);
+  }
+  #hud b { color: var(--gold); }
+
+  #legend {
+    position: fixed; bottom: 14px; left: 14px;
+    background: var(--panel-bg);
+    border: 1px solid rgba(255,207,94,0.25);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 11px;
+    line-height: 1.7;
+  }
+  .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+
+  #panel {
+    position: fixed; top: 14px; right: 14px;
+    width: 340px;
+    max-height: calc(100vh - 28px);
+    overflow-y: auto;
+    background: var(--panel-bg);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 16px 18px;
+    box-shadow: 0 0 24px rgba(255,207,94,0.25);
+    display: none;
+    animation: fadeIn 0.25s ease;
+  }
+  #panel h3 { margin: 0 0 8px; color: var(--gold); font-size: 15px; letter-spacing: 1px; }
+  #panel .coord { color: var(--cyan); font-size: 12px; margin-bottom: 10px; font-family: monospace; }
+  #panel p { font-size: 12.5px; line-height: 1.5; color: #d9e9ee; margin: 0; }
+  #panel .close { position:absolute; top:8px; right:10px; cursor:pointer; color:#88a; font-size:14px; }
+  #panel .edit-toggle {
+    position:absolute; top:8px; right:30px; cursor:pointer; color:#9fd8e8; font-size:11px;
+  }
+  #panel .edit-toggle:hover { color: var(--cyan); }
+  #panel .badge {
+    display:inline-block; font-size:10px; padding:2px 7px; border-radius:8px;
+    margin-bottom:8px; letter-spacing:0.5px; border:1px solid rgba(255,255,255,0.25);
+  }
+  #panel .notes {
+    margin-top:10px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.1);
+    font-size:11.5px; color:#c9d8a8; font-style:italic; white-space:pre-wrap;
+  }
+  #panel .edit-form { margin-top:10px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.1); display:flex; flex-direction:column; gap:4px; }
+  #panel .edit-form label { font-size:10px; color:#9aa; }
+  #panel .edit-form input, #panel .edit-form textarea {
+    background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); border-radius:4px;
+    color:#eef; font-family:inherit; font-size:11.5px; padding:5px 6px; resize:vertical;
+  }
+  #panel .edit-form button {
+    align-self:flex-start; margin-top:4px; background: rgba(255,207,94,0.15); color:var(--gold);
+    border:1px solid var(--gold); border-radius:5px; padding:5px 10px; font-size:11px; cursor:pointer;
+  }
+  @keyframes fadeIn { from{opacity:0; transform:translateY(-6px);} to{opacity:1; transform:translateY(0);} }
+
+  #zoomctl {
+    position: fixed; bottom: 14px; right: 14px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  #zoomctl button {
+    width: 34px; height: 34px;
+    background: var(--panel-bg); color: var(--cyan);
+    border: 1px solid rgba(94,241,255,0.4); border-radius: 6px;
+    font-size: 18px; cursor: pointer;
+  }
+  #zoomctl button:hover { background: rgba(94,241,255,0.15); }
+
+  #minimap {
+    position: fixed; bottom: 100px; right: 14px;
+    width: 150px; height: 110px;
+    background: rgba(5,8,10,0.85);
+    border: 1px solid rgba(94,241,255,0.3);
+    border-radius: 6px;
+  }
+
+  #searchBox { margin-top: 6px; display: flex; gap: 5px; pointer-events: auto; }
+  #searchBox input {
+    width: 56px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px; color: #eef; font-family: inherit; font-size: 11px; padding: 3px 5px;
+  }
+  #searchBox button {
+    background: rgba(94,241,255,0.12); color: var(--cyan); border: 1px solid rgba(94,241,255,0.4);
+    border-radius: 4px; font-size: 11px; padding: 3px 8px; cursor: pointer; font-family: inherit;
+  }
+
+  #controls {
+    position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 8px;
+  }
+  #controls button {
+    background: var(--panel-bg); color: #cfe8ee;
+    border: 1px solid rgba(255,255,255,0.18); border-radius: 6px;
+    padding: 8px 12px; font-size: 12px; cursor: pointer;
+    font-family: inherit; letter-spacing: 0.3px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  #controls button.on { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 10px rgba(94,241,255,0.25); }
+  #controls button.route-on { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 10px rgba(255,207,94,0.25); }
+
+  #panel .biome-list {
+    list-style: none; margin: 8px 0 0; padding: 0;
+    max-height: 260px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,207,94,0.3) transparent;
+  }
+  #panel .biome-list::-webkit-scrollbar { width: 4px; }
+  #panel .biome-list::-webkit-scrollbar-thumb { background: rgba(255,207,94,0.3); border-radius: 2px; }
+  #panel .biome-list li.biome-row {
+    padding: 5px 0; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  #panel .biome-info { display: flex; justify-content: space-between; gap: 8px; font-size: 11.5px; }
+  #panel .biome-edit-icon {
+    float: right; cursor: pointer; color: #7a8a95; font-size: 10px; margin-top: -16px;
+  }
+  #panel .biome-edit-icon:hover { color: var(--cyan); }
+  #panel .custom-tag { font-size: 9px; color: var(--cyan); font-style: italic; }
+  #panel .biome-edit-form {
+    flex-direction: column; gap: 4px; margin-top: 6px; padding: 6px;
+    background: rgba(255,255,255,0.04); border-radius: 5px;
+  }
+  #panel .biome-edit-form input, #panel .biome-edit-form select {
+    background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); border-radius:4px;
+    color:#eef; font-family:inherit; font-size:11px; padding:4px 6px;
+  }
+  #panel .biome-edit-actions { display:flex; gap:6px; margin-top:2px; }
+  #panel .biome-edit-actions button {
+    background: rgba(255,207,94,0.15); color:var(--gold); border:1px solid var(--gold);
+    border-radius:5px; padding:4px 8px; font-size:10.5px; cursor:pointer;
+  }
+  #panel .biome-edit-actions button.ghost {
+    background: transparent; color:#9aa; border:1px solid rgba(255,255,255,0.2);
+  }
+  #panel .biome-name { color: #ffe9b8; }
+  #panel .biome-res { color: #9fd8e8; text-align: right; font-size: 10.5px; }
+  #panel .tier { letter-spacing: 1px; }
+
+  #routePanel {
+    position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+    width: min(560px, 90vw);
+    background: var(--panel-bg);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 10px 14px;
+    box-shadow: 0 0 20px rgba(255,207,94,0.18);
+    display: none;
+  }
+  #routePanel h4 { margin: 0 0 6px; color: var(--gold); font-size: 12.5px; letter-spacing: 0.5px; }
+  #routePanel .steps {
+    display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 8px;
+  }
+  #routePanel .step-chip {
+    flex: 0 0 auto; font-size: 10.5px; padding: 4px 8px; border-radius: 10px;
+    border: 1px solid rgba(255,207,94,0.3); color: #d9c48a; white-space: nowrap;
+  }
+  #routePanel .step-chip.done { background: rgba(255,207,94,0.18); color: var(--gold); border-color: var(--gold); }
+  #routePanel .step-chip.current { background: var(--gold); color: #241b10; font-weight: bold; }
+  #routePanel .route-actions { display: flex; align-items: center; gap: 8px; }
+  #routePanel .route-actions button {
+    background: rgba(255,207,94,0.1); color: var(--gold);
+    border: 1px solid rgba(255,207,94,0.4); border-radius: 6px;
+    padding: 6px 10px; font-size: 12px; cursor: pointer; font-family: inherit;
+  }
+  #routePanel .route-actions button:disabled { opacity: 0.35; cursor: default; }
+  #routePanel .route-actions { flex-wrap: wrap; }
+  #routePanel .route-tabs { display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap; }
+  #routePanel .route-tab {
+    font-size:10.5px; padding:3px 9px; border-radius:10px; cursor:pointer;
+    border:1px solid var(--tabColor, #888); color: var(--tabColor, #ccc); opacity:0.55;
+  }
+  #routePanel .route-tab.active { opacity:1; background: color-mix(in srgb, var(--tabColor) 18%, transparent); font-weight:bold; }
+  #routePanel .route-tab.add { border-style:dashed; color:#9aa; border-color:#9aa; opacity:0.8; }
+  #routePanel .route-distance { font-size: 10.5px; color: #d9c48a; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<canvas id="map"></canvas>
+
+<div id="hud">
+  <div><b>Mundo Conocido</b> — cada masa de tierra es un mundo propio</div>
+  <div>Chunks en caché: <span id="chunkCount">0</span> · Nodos ley visibles: <span id="nodeCount">0</span></div>
+  <div>Coordenadas arcanas: <span id="camCoords">0, 0</span></div>
+  <div id="searchBox">
+    <input type="number" id="goX" placeholder="X" step="100">
+    <input type="number" id="goY" placeholder="Y" step="100">
+    <button onclick="goToCoords()">Ir</button>
+  </div>
+</div>
+
+<div id="controls">
+  <button id="btnLey" class="on" onclick="toggleLeyLines()">🔗 Líneas Ley: ON</button>
+  <button id="btnRoute" onclick="toggleRouteMode()">🧭 Modo Ruta: OFF</button>
+</div>
+
+<div id="legend">
+  <div><span class="dot" style="background:#8a7350;"></span>Continentes</div>
+  <div><span class="dot" style="background:#3d5566;"></span>Tierras altas</div>
+  <div><span class="dot" style="background:var(--cyan); box-shadow:0 0 6px var(--cyan);"></span>Línea Ley / Nodo</div>
+</div>
+
+<div id="panel">
+  <span class="close" onclick="closePanel()">✕</span>
+  <span class="edit-toggle" id="panelEditToggle" onclick="toggleEditPanel()">✎ Editar</span>
+  <h3 id="panelTitle">Nodo Ley</h3>
+  <div class="coord" id="panelCoord">0, 0</div>
+  <div id="panelBadge" class="badge"></div>
+  <p id="panelText"></p>
+  <ul class="biome-list" id="panelBiomes"></ul>
+  <div id="panelNotes" class="notes"></div>
+  <div id="panelEdit" class="edit-form" style="display:none;">
+    <label>Nombre</label>
+    <input type="text" id="editName">
+    <label>📖 Diario del viaje</label>
+    <textarea id="editNotes" rows="5" placeholder="¿Qué le reveló este lugar a la protagonista? ¿Qué cambió en ella al llegar aquí?"></textarea>
+    <button onclick="saveEditPanel()">Guardar</button>
+  </div>
+</div>
+
+<div id="routePanel">
+  <h4>🧭 Rutas — modo ruta activo: haz clic en un nodo ley para avanzar la ruta seleccionada</h4>
+  <div class="route-tabs" id="routeTabs"></div>
+  <div class="steps" id="routeSteps"></div>
+  <div id="routeDistance" class="route-distance">—</div>
+  <div class="route-actions">
+    <button id="btnPrev" onclick="stepRoute(-1)">◀</button>
+    <span id="routeCounter" style="font-size:11px;">0 / 0</span>
+    <button id="btnNext" onclick="stepRoute(1)">▶</button>
+    <button id="btnUndo" onclick="undoRoute()">Deshacer</button>
+    <button onclick="resetRoute()">Reiniciar</button>
+    <button onclick="exportRouteJSON()" title="Exportar como JSON">⬇ JSON</button>
+    <button onclick="exportRouteStory()" title="Exportar como esbozo narrativo">⬇ Relato</button>
+  </div>
+</div>
+
+<canvas id="minimap" width="150" height="110"></canvas>
+
+<div id="zoomctl">
+  <button onclick="exportMapPNG()" title="Exportar mapa como PNG">📷</button>
+  <button onclick="zoomBy(1.25)">+</button>
+  <button onclick="zoomBy(0.8)">–</button>
+</div>
+
+<script type="module" src="./js/renderer.js"></script>
+</body>
+</html>
