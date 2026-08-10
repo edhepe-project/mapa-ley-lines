@@ -179,3 +179,32 @@ export const CELESTIAL_CONFIGS = [
     allowedBiomes: ["mountain", "plains", "coast"]
   }
 ];
+
+// --- GENERACIÓN DE RUINAS ANTIGUAS ---
+export const CIV_PREFIXES = ["Los", "La Dinastía de", "El Imperio", "La Colectividad", "Los Hijos de", "El Pacto", "Los Ecos de", "El Cónclave de"];
+export const CIV_ROOTS = ["Xath", "Vael", "Zyr", "Kael", "Thal", "Nyx", "Oron", "Silicato", "Ónice", "Luz Muerta", "Platino", "Kor", "Ghor", "Vul"];
+export const CIV_SUFFIXES = ["'ari", "'nox", "'thari", "ianos", "itas", " (Extintos)", " del Abismo", " (Primera Era)", " del Cénit"];
+
+export const RUIN_TYPES = [
+  "Cúpulas geodésicas colapsadas",
+  "Fosos de resonancia inerte",
+  "Obeliscos fracturados que desafían la gravedad",
+  "Torres de cristal opaco sin puertas",
+  "Un complejo de túneles perfectamente pulidos",
+  "Anillos de metal oxidado del tamaño de montañas",
+  "Sarcófagos estelares vacíos",
+  "Esferas de Dyson en miniatura, apagadas",
+  "Arcos de obsidiana grabados con matemáticas alienígenas",
+  "Ciudades enteras invertidas como estalactitas"
+];
+
+export const RUIN_STATES = [
+  "sepultadas bajo 40 metros de sedimento calcáreo",
+  "sumergidas en un denso lago fosforescente",
+  "estratificadas sobre las ruinas de otras tres eras distintas",
+  "fosilizadas directamente en la roca de la montaña",
+  "congeladas bajo una capa de hielo milenario",
+  "erosionadas por eones de vientos radioactivos",
+  "fundidas con la corteza terrestre debido a calor extremo",
+  "perfectamente preservadas en una burbuja temporal degradada"
+];

@@ -1,4 +1,4 @@
-import { NAME_A, NAME_B, NODE_SUFFIX } from './config.js';
+import { NAME_A, NAME_B, NODE_SUFFIX, CIV_PREFIXES, CIV_ROOTS, CIV_SUFFIXES } from './config.js';
 
 export function hashChunk(cx, cy) {
   let h = (cx | 0) * 374761393 + (cy | 0) * 668265263;
@@ -29,6 +29,19 @@ export function generateNodeName(rng) {
   const suffix = NODE_SUFFIX[Math.floor(rng() * NODE_SUFFIX.length)];
   return base + " " + suffix;
 }
+
+export function generateCivilizationName(rng) {
+  const prefix = CIV_PREFIXES[Math.floor(rng() * CIV_PREFIXES.length)];
+  const root = CIV_ROOTS[Math.floor(rng() * CIV_ROOTS.length)];
+  const suffix = CIV_SUFFIXES[Math.floor(rng() * CIV_SUFFIXES.length)];
+  
+  // A veces solo usa prefijo + raíz (ej: "Los Xath"), a veces raíz + sufijo (ej: "Zyr'nox")
+  const format = rng();
+  if (format < 0.3) return root + suffix;
+  if (format < 0.6) return prefix + " " + root;
+  return prefix + " " + root + suffix;
+}
+
 
 export function pointInPolygon(x, y, points) {
   let inside = false;

@@ -170,6 +170,23 @@ export function openNodePanel(node) {
     text += " Se encuentra a ~" + Math.round(near.dist) + " unidades de " + near.continent.name + ".";
   }
   document.getElementById("panelText").textContent = text;
+  
+  // --- Mostrar Ruinas ---
+  const oldRuin = document.getElementById("ruinBlock");
+  if (oldRuin) oldRuin.remove();
+  if (node.ruin) {
+    const r = node.ruin;
+    const ruinDiv = document.createElement("div");
+    ruinDiv.id = "ruinBlock";
+    ruinDiv.style.cssText = "margin:12px 0; padding:10px; border-radius:6px; border:1px solid rgba(255,100,50,0.3); background:rgba(40,20,10,0.6); border-left:4px solid #c85a2b;";
+    ruinDiv.innerHTML =
+      '<div style="font-size:10px; letter-spacing:2px; color:#ff945e; margin-bottom:4px; font-weight:bold;">🏛️ RUINAS DESCUBIERTAS</div>'
+      + '<div style="color:#e8c87a; font-size:13px; font-family:serif; font-style:italic; margin-bottom:6px;">' + r.civ + '</div>'
+      + '<div style="font-size:11px; color:#c8dde8; margin-bottom:4px;">' + r.type + '</div>'
+      + '<div style="font-size:10.5px; color:#8a99a8; border-top:1px dashed rgba(255,100,50,0.2); padding-top:4px;">Estado: ' + r.state + '</div>';
+    document.getElementById("panelText").after(ruinDiv);
+  }
+
   document.getElementById("panelBiomes").innerHTML = "";
   // Mostrar el diario con un mensaje diferente si hay historia o no
   const notesEl = document.getElementById("panelNotes");

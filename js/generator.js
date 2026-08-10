@@ -1,8 +1,9 @@
 import {
   CHUNK_SIZE, MAX_CACHED_CHUNKS, BIOME_TYPES, FLAVOR,
-  NODE_TYPES, NODE_CONNECT_RADIUS, NODE_MAX_LINKS, EARTH_TEMPLATES, CELESTIAL_CONFIGS
+  NODE_TYPES, NODE_CONNECT_RADIUS, NODE_MAX_LINKS, EARTH_TEMPLATES, CELESTIAL_CONFIGS,
+  RUIN_TYPES, RUIN_STATES
 } from './config.js';
-import { hashChunk, mulberry32, generateContinentName, generateNodeName } from './utils.js';
+import { hashChunk, mulberry32, generateContinentName, generateNodeName, generateCivilizationName } from './utils.js';
 import { chunkCache, continentOverrides, nodeOverrides, biomeOverrides } from './state.js';
 
 export function chunkOriginWorld(cx, cy) {
@@ -174,6 +175,16 @@ export function generateChunk(cx, cy) {
       gateway: hostContinent && i === 0 ? hostContinent.name : null,
       notes: ""
     };
+
+    // --- RUINAS OCULTAS (10% de probabilidad) ---
+    if (rng() < 0.10) {
+      newNode.ruin = {
+        civ: generateCivilizationName(rng),
+        type: RUIN_TYPES[Math.floor(rng() * RUIN_TYPES.length)],
+        state: RUIN_STATES[Math.floor(rng() * RUIN_STATES.length)]
+      };
+    }
+
     applyNodeOverride(newNode);
     chunk.nodes.push(newNode);
   }
