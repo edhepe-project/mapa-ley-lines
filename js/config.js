@@ -69,58 +69,47 @@ export const EARTH_TEMPLATES = [
 // Cada continente tiene su propio cielo. La rareza determina la probabilidad de aparición.
 export const CELESTIAL_CONFIGS = [
   {
-    id: "yinyang",
-    name: "El Yin y el Yang",
+    id: "normal",
+    name: "Normal",
     icon: "☀️🌙",
-    rarity: 0.40,
+    rarity: 0.50, // 50%
     color: "#e8c87a",
-    desc: "Un sol y una luna danzan eternamente en el cielo de este mundo. Los ciclos son predecibles, la vida es equilibrada y diversa.",
-    skyDesc: "El cielo alterna entre el oro del sol y la plata de la luna en ciclos regulares.",
+    desc: "Sistemas equilibrados. Puede tener 1 sol y 1 luna, o incluso 2 soles y 2 lunas en perfecta órbita.",
+    skyDesc: "El cielo alterna armónicamente entre el día y la noche. Las estaciones son estables y predecibles.",
     biomeEffect: "La vida aquí sigue ritmos conocidos. Florecen todas las formas de existencia.",
     allowedBiomes: ["forest", "plains", "mountain", "swamp", "coast"]
   },
   {
-    id: "twin_suns",
-    name: "El Ardiente",
+    id: "ardiente",
+    name: "Ardiente",
     icon: "☀️☀️",
-    rarity: 0.25,
+    rarity: 0.25, // 25%
     color: "#ff9944",
-    desc: "Dos soles cruzan el cielo. Casi no hay noche. Las sombras son dobles y difusas.",
-    skyDesc: "Dos astros ardientes recorren el firmamento. El crepúsculo apenas dura minutos.",
-    biomeEffect: "Los desiertos dominan el interior. Los bosques crecen densos en los polos. La vida es resistente y de colores oscuros para absorber menos calor.",
+    desc: "Mundos asolados por 2 o más soles masivos. Casi no existe la noche.",
+    skyDesc: "Múltiples astros ardientes recorren el firmamento. El crepúsculo apenas dura minutos.",
+    biomeEffect: "Los desiertos dominan el interior. La vida es resistente y de colores oscuros para absorber menos calor.",
     allowedBiomes: ["desert", "volcanic", "mountain", "coast"]
   },
   {
-    id: "twin_moons",
-    name: "El Plateado",
+    id: "nocturno",
+    name: "Nocturno",
     icon: "🌙🌙",
-    rarity: 0.20,
-    color: "#a0c8e8",
-    desc: "Dos lunas bañan este mundo en una luz fría y plateada. El día es tenue; la noche, casi tan brillante como el crepúsculo.",
-    skyDesc: "Las dos lunas crean mareas dobles y su luz plateada tiñe todo de azul y plata.",
-    biomeEffect: "La vida es principalmente nocturna. Las plantas tienen hojas translúcidas o plateadas. Los animales tienen ojos enormes y sentidos agudizados.",
-    allowedBiomes: ["tundra", "swamp", "forest", "mountain", "coast"]
-  },
-  {
-    id: "no_sun",
-    name: "El Sin Sol",
-    icon: "🌙✨",
-    rarity: 0.12,
+    rarity: 0.20, // 20%
     color: "#6680cc",
-    desc: "No hay sol. Las lunas de este mundo emiten su propia luz fría y constante. Es un mundo de penumbra eterna y silencio.",
-    skyDesc: "Un cielo de penumbra perpetua iluminado por lunas que brillan con luz propia como pequeñas estrellas.",
-    biomeEffect: "La vida es bioluminiscente. No existen plantas fotosintéticas; todo depende de energía geotérmica o química. Los seres son pálidos, ciegos o con sentidos alternativos.",
+    desc: "Dominado por 2 o más lunas gigantes. La luz solar es inexistente o demasiado lejana para calentar.",
+    skyDesc: "Cielo de penumbra perpetua, iluminado por lunas enormes que brillan en la oscuridad eterna.",
+    biomeEffect: "La vida es nocturna y bioluminiscente. Todo depende de la energía geotérmica y el calor del subsuelo.",
     allowedBiomes: ["tundra", "volcanic", "swamp", "mountain", "coast"]
   },
   {
-    id: "impossible",
-    name: "El Imposible",
+    id: "raro",
+    name: "Raro",
     icon: "🌀⚡",
-    rarity: 0.03,
+    rarity: 0.05, // 5%
     color: "#cc44ff",
-    desc: "Las reglas de este cielo desafían la comprensión. Un eclipse eterno, anillos que cruzan el firmamento, o astros que orbitan sin sentido aparente.",
-    skyDesc: "El cielo de este mundo sigue reglas propias que ningún cartógrafo ha podido explicar del todo.",
-    biomeEffect: "La vida aquí es completamente ajena a cualquier otra. Los visitantes feéricos reportan desorientación y pérdida del sentido del tiempo.",
-    allowedBiomes: ["forest", "plains", "mountain", "desert", "swamp", "tundra", "volcanic", "coast"] // Todos
+    desc: "Las reglas cósmicas desafían la comprensión. Eclipses eternos, anillos fracturados o órbitas imposibles.",
+    skyDesc: "El cielo de este mundo sigue reglas propias que ningún cartógrafo ha podido explicar.",
+    biomeEffect: "La vida aquí es completamente ajena y caótica. Los viajeros reportan pérdida del sentido del tiempo.",
+    allowedBiomes: ["forest", "plains", "mountain", "desert", "swamp", "tundra", "volcanic", "coast"]
   }
 ];
