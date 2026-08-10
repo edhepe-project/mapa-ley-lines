@@ -116,20 +116,7 @@ canvas.addEventListener("click", (e) => {
   if (dragged) return;
   const world = screenToWorld(e.clientX, e.clientY);
 
-  // Prioridad 1: toque DENTRO del polígono de un continente
-  if (!routeMode) {
-    for (const chunk of chunkCache.values()) {
-      for (const continent of chunk.continents) {
-        if (pointInPolygon(world.x, world.y, continent.points)) {
-          openContinentPanel(continent);
-          return;
-        }
-      }
-    }
-  }
-
-  // Prioridad 2: toque MUY cerca de un nodo (radio pequeño: 40px en pantalla)
-  const hitRadiusWorld = 40 / camera.zoom;
+  // Buscar el nodo más cercano al toque
   let closest = null, closestDist = Infinity;
   for (const chunk of chunkCache.values()) {
     for (const node of chunk.nodes) {
@@ -137,13 +124,43 @@ canvas.addEventListener("click", (e) => {
       if (d < closestDist) { closestDist = d; closest = node; }
     }
   }
-  if (closest && closestDist < hitRadiusWorld && (leyLinesVisible || routeMode)) {
+
+  // Radio "preciso": si el dedo está MUY encima del nodo, siempre lo abre (prioritario).
+  // 30px en pantalla es un toque preciso incluso en móvil.
+  const preciseRadius = 30 / camera.zoom;
+  if (closest && closestDist < preciseRadius && (leyLinesVisible || routeMode)) {
     if (routeMode) addToRoute(closest);
     else openNodePanel(closest);
     return;
   }
 
-  // Prioridad 3: fallback por proximidad al centro del continente
+  // Verificar si el toque está dentro del polígono de un continente
+  if (!routeMode) {
+    for (const chunk of chunkCache.values()) {
+      for (const continent of chunk.continents) {
+        if (pointInPolygon(world.x, world.y, continent.points)) {
+          // Dentro del continente: abrir continente a menos que el nodo esté bastante cerca (80px)
+          const continentNodeRadius = 80 / camera.zoom;
+          if (closest && closestDist < continentNodeRadius && (leyLinesVisible)) {
+            openNodePanel(closest);
+          } else {
+            openContinentPanel(continent);
+          }
+          return;
+        }
+      }
+    }
+  }
+
+  // Fuera del polígono: radio generoso de 80px para nodos (más fácil en océano)
+  const openRadius = 80 / camera.zoom;
+  if (closest && closestDist < openRadius && (leyLinesVisible || routeMode)) {
+    if (routeMode) addToRoute(closest);
+    else openNodePanel(closest);
+    return;
+  }
+
+  // Fallback: continente más cercano por proximidad al centro
   if (!routeMode) {
     let nearestC = null, nearestD = Infinity;
     const maxCenterDist = 12000;
@@ -158,8 +175,6 @@ canvas.addEventListener("click", (e) => {
     }
   }
 });
-
-
 
 function getVisibleChunkRange() {
   const topLeft = screenToWorld(0, 0);
@@ -210,6 +225,7 @@ function drawContinent(continent) {
     ctx.arc(s.x, s.y, r, 0, Math.PI * 2);
     ctx.fill();
   }
+
   ctx.globalCompositeOperation = "source-over";
   ctx.restore();
 
