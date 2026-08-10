@@ -64,3 +64,58 @@ export const EARTH_TEMPLATES = [
   // Antarctica (Ovalado horizontal)
   [1.1, 0.8, 0.4, 0.7, 1.1, 0.8, 0.4, 0.7]
 ];
+
+// --- CONFIGURACIONES CELESTES ---
+// Cada continente tiene su propio cielo. La rareza determina la probabilidad de aparición.
+export const CELESTIAL_CONFIGS = [
+  {
+    id: "yinyang",
+    name: "El Yin y el Yang",
+    icon: "☀️🌙",
+    rarity: 0.40,
+    color: "#e8c87a",
+    desc: "Un sol y una luna danzan eternamente en el cielo de este mundo. Los ciclos son predecibles, la vida es equilibrada y diversa.",
+    skyDesc: "El cielo alterna entre el oro del sol y la plata de la luna en ciclos regulares.",
+    biomeEffect: "La vida aquí sigue ritmos conocidos. Florecen todas las formas de existencia."
+  },
+  {
+    id: "twin_suns",
+    name: "El Ardiente",
+    icon: "☀️☀️",
+    rarity: 0.25,
+    color: "#ff9944",
+    desc: "Dos soles cruzan el cielo. Casi no hay noche. Las sombras son dobles y difusas.",
+    skyDesc: "Dos astros ardientes recorren el firmamento. El crepúsculo apenas dura minutos.",
+    biomeEffect: "Los desiertos dominan el interior. Los bosques crecen densos en los polos. La vida es resistente y de colores oscuros para absorber menos calor."
+  },
+  {
+    id: "twin_moons",
+    name: "El Plateado",
+    icon: "🌙🌙",
+    rarity: 0.20,
+    color: "#a0c8e8",
+    desc: "Dos lunas bañan este mundo en una luz fría y plateada. El día es tenue; la noche, casi tan brillante como el crepúsculo.",
+    skyDesc: "Las dos lunas crean mareas dobles y su luz plateada tiñe todo de azul y plata.",
+    biomeEffect: "La vida es principalmente nocturna. Las plantas tienen hojas translúcidas o plateadas. Los animales tienen ojos enormes y sentidos agudizados."
+  },
+  {
+    id: "no_sun",
+    name: "El Sin Sol",
+    icon: "🌙✨",
+    rarity: 0.12,
+    color: "#6680cc",
+    desc: "No hay sol. Las lunas de este mundo emiten su propia luz fría y constante. Es un mundo de penumbra eterna y silencio.",
+    skyDesc: "Un cielo de penumbra perpetua iluminado por lunas que brillan con luz propia como pequeñas estrellas.",
+    biomeEffect: "La vida es bioluminiscente. No existen plantas fotosintéticas; todo depende de energía geotérmica o química. Los seres son pálidos, ciegos o con sentidos alternativos."
+  },
+  {
+    id: "impossible",
+    name: "El Imposible",
+    icon: "🌀⚡",
+    rarity: 0.03,
+    color: "#cc44ff",
+    desc: "Las reglas de este cielo desafían la comprensión. Un eclipse eterno, anillos que cruzan el firmamento, o astros que orbitan sin sentido aparente.",
+    skyDesc: "El cielo de este mundo sigue reglas propias que ningún cartógrafo ha podido explicar del todo.",
+    biomeEffect: "La vida aquí es completamente ajena a cualquier otra. Los visitantes feéricos reportan desorientación y pérdida del sentido del tiempo."
+  }
+];

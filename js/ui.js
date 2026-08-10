@@ -199,6 +199,23 @@ export function openContinentPanel(continent) {
   badge.style.borderColor = "rgba(255,233,184,0.4)";
   document.getElementById("panelText").textContent =
     "Mundo autosuficiente con " + continent.biomes.length + " biomas registrados.";
+
+  // --- Mostrar el Cielo del Continente ---
+  const oldSky = document.getElementById("skyBlock");
+  if (oldSky) oldSky.remove();
+  if (continent.sky) {
+    const s = continent.sky;
+    const skyDiv = document.createElement("div");
+    skyDiv.id = "skyBlock";
+    skyDiv.style.cssText = "margin:10px 0 8px; padding:8px 10px; border-radius:6px; border:1px solid " + s.color + "44; background:" + s.color + "18;";
+    skyDiv.innerHTML =
+      '<div style="font-size:18px; letter-spacing:3px; margin-bottom:4px;">' + s.icon + '</div>'
+      + '<div style="color:' + s.color + '; font-size:11px; font-weight:bold; letter-spacing:1px; margin-bottom:3px;">' + s.name.toUpperCase() + '</div>'
+      + '<div style="font-size:11px; color:#c8dde8; font-style:italic; margin-bottom:4px;">' + s.skyDesc + '</div>'
+      + '<div style="font-size:10.5px; color:#aac; border-top:1px solid ' + s.color + '33; padding-top:4px;">' + s.biomeEffect + '</div>';
+    document.getElementById("panelBiomes").before(skyDiv);
+  }
+
   renderBiomeList(continent);
   document.getElementById("panelNotes").textContent = continent.notes ? "📝 " + continent.notes : "";
   document.getElementById("panelEdit").style.display = "none";

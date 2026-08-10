@@ -1,6 +1,6 @@
 import {
   CHUNK_SIZE, MAX_CACHED_CHUNKS, BIOME_TYPES, FLAVOR,
-  NODE_TYPES, NODE_CONNECT_RADIUS, NODE_MAX_LINKS, EARTH_TEMPLATES
+  NODE_TYPES, NODE_CONNECT_RADIUS, NODE_MAX_LINKS, EARTH_TEMPLATES, CELESTIAL_CONFIGS
 } from './config.js';
 import { hashChunk, mulberry32, generateContinentName, generateNodeName } from './utils.js';
 import { chunkCache, continentOverrides, nodeOverrides, biomeOverrides } from './state.js';
@@ -135,7 +135,12 @@ export function generateChunk(cx, cy) {
     }
 
     const name = generateContinentName(rng);
-    hostContinent = { points, variant, biomes, name, cx0, cy0, notes: "" };
+
+    // --- Asignar Configuración Celeste ---
+    // Cada continente tiene su propio cielo, elegido de forma determinista con su semilla.
+    const sky = pickCelestialConfig(rng);
+
+    hostContinent = { points, variant, biomes, sky, name, cx0, cy0, notes: "" };
     applyContinentOverride(hostContinent);
     applyBiomeOverrides(hostContinent);
     chunk.continents.push(hostContinent);
@@ -224,4 +229,15 @@ export function buildLeyConnections(visibleChunks) {
   }
 
   return { nodes: allNodes, edges };
+}
+
+// Selecciona una configuración celeste usando probabilidades ponderadas (rarity).
+function pickCelestialConfig(rng) {
+  const r = rng();
+  let cumulative = 0;
+  for (const cfg of CELESTIAL_CONFIGS) {
+    cumulative += cfg.rarity;
+    if (r < cumulative) return cfg;
+  }
+  return CELESTIAL_CONFIGS[0]; // fallback
 }
