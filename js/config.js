@@ -72,7 +72,7 @@ export const CELESTIAL_CONFIGS = [
     id: "normal",
     name: "Normal",
     icon: "☀️🌙",
-    rarity: 0.50, // 50%
+    rarity: 0.45,
     color: "#e8c87a",
     desc: "Sistemas equilibrados. Puede tener 1 sol y 1 luna, o incluso 2 soles y 2 lunas en perfecta órbita.",
     skyDesc: "El cielo alterna armónicamente entre el día y la noche. Las estaciones son estables y predecibles.",
@@ -83,7 +83,7 @@ export const CELESTIAL_CONFIGS = [
     id: "ardiente",
     name: "Ardiente",
     icon: "☀️☀️",
-    rarity: 0.25, // 25%
+    rarity: 0.15,
     color: "#ff9944",
     desc: "Mundos asolados por 2 o más soles masivos. Casi no existe la noche.",
     skyDesc: "Múltiples astros ardientes recorren el firmamento. El crepúsculo apenas dura minutos.",
@@ -94,22 +94,88 @@ export const CELESTIAL_CONFIGS = [
     id: "nocturno",
     name: "Nocturno",
     icon: "🌙🌙",
-    rarity: 0.20, // 20%
+    rarity: 0.15,
     color: "#6680cc",
-    desc: "Dominado por 2 o más lunas gigantes. La luz solar es inexistente o demasiado lejana para calentar.",
-    skyDesc: "Cielo de penumbra perpetua, iluminado por lunas enormes que brillan en la oscuridad eterna.",
-    biomeEffect: "La vida es nocturna y bioluminiscente. Todo depende de la energía geotérmica y el calor del subsuelo.",
+    desc: "Dominado por 2 o más lunas gigantes. La luz solar es débil o muy lejana.",
+    skyDesc: "Cielo de penumbra perpetua, iluminado por lunas enormes que brillan en la noche.",
+    biomeEffect: "La vida es nocturna y bioluminiscente. Gran dependencia del calor del subsuelo.",
     allowedBiomes: ["tundra", "volcanic", "swamp", "mountain", "coast"]
+  },
+  {
+    id: "anillado",
+    name: "Anillado",
+    icon: "🪐",
+    rarity: 0.08,
+    color: "#d4c5b0",
+    desc: "El planeta posee anillos masivos de roca y hielo que cruzan todo el firmamento.",
+    skyDesc: "Un arco gigante fragmenta el cielo. Lluvias de estrellas fugaces caen cada noche.",
+    biomeEffect: "La sombra de los anillos crea inviernos perpetuos. Predominan los climas fríos y ventosos.",
+    allowedBiomes: ["tundra", "mountain", "coast", "plains", "forest"]
+  },
+  {
+    id: "nebular",
+    name: "Nebular",
+    icon: "🌌",
+    rarity: 0.06,
+    color: "#44ffaa",
+    desc: "Sistema inmerso en una nebulosa planetaria. Radiación y gases coloridos llenan el espacio.",
+    skyDesc: "El cielo no es negro, sino un lienzo vibrante de gases morados y esmeraldas.",
+    biomeEffect: "Tormentas eléctricas constantes. La flora presenta colores neón y formas mutadas.",
+    allowedBiomes: ["swamp", "forest", "mountain", "coast"]
+  },
+  {
+    id: "agonizante",
+    name: "Agonizante",
+    icon: "🔴",
+    rarity: 0.05,
+    color: "#ff3333",
+    desc: "El sol de este mundo es una Gigante Roja a punto de morir, expandida inmensamente.",
+    skyDesc: "Un sol rojo y opresivo ocupa la mitad del cielo, pareciendo tragar el horizonte.",
+    biomeEffect: "Luz roja y lúgubre todo el día. Tierras secas y antiguas de un mundo al borde del colapso.",
+    allowedBiomes: ["desert", "volcanic", "mountain", "coast"]
+  },
+  {
+    id: "devorado",
+    name: "Devorado",
+    icon: "🕳️",
+    rarity: 0.03,
+    color: "#a327db",
+    desc: "El planeta orbita peligrosamente cerca de un agujero negro o pulsar.",
+    skyDesc: "Un disco de acreción ardiente ilumina el cielo, distorsionando las estrellas lejanas.",
+    biomeEffect: "Gravedad inestable. La flora crece en espirales extrañas y el flujo del tiempo se percibe alterado.",
+    allowedBiomes: ["tundra", "swamp", "mountain", "volcanic"]
+  },
+  {
+    id: "vacio",
+    name: "Vacío",
+    icon: "⬛",
+    rarity: 0.02,
+    color: "#555555",
+    desc: "Un planeta errante en el espacio profundo, desvinculado de cualquier estrella.",
+    skyDesc: "Un abismo negro y absoluto, salpicado tenuemente por estrellas lejanas inalcanzables.",
+    biomeEffect: "La superficie es un yermo congelado. La vida solo existe refugiada en grietas geotérmicas.",
+    allowedBiomes: ["tundra", "volcanic"]
   },
   {
     id: "raro",
     name: "Raro",
     icon: "🌀⚡",
-    rarity: 0.05, // 5%
+    rarity: 0.009999, // ~1%
     color: "#cc44ff",
-    desc: "Las reglas cósmicas desafían la comprensión. Eclipses eternos, anillos fracturados o órbitas imposibles.",
+    desc: "Las reglas cósmicas desafían la comprensión. Eclipses eternos u órbitas imposibles.",
     skyDesc: "El cielo de este mundo sigue reglas propias que ningún cartógrafo ha podido explicar.",
-    biomeEffect: "La vida aquí es completamente ajena y caótica. Los viajeros reportan pérdida del sentido del tiempo.",
+    biomeEffect: "La vida aquí es completamente ajena y caótica. Los viajeros reportan pérdida del sentido de la realidad.",
     allowedBiomes: ["forest", "plains", "mountain", "desert", "swamp", "tundra", "volcanic", "coast"]
+  },
+  {
+    id: "absoluto",
+    name: "El Absoluto",
+    icon: "👁️💠",
+    rarity: 0.000001, // 1 en un millón
+    color: "#ffffff",
+    desc: "El origen, el fin o el centro del universo de los Primeros. Una rareza estadística insondable.",
+    skyDesc: "No hay cielo. Hay un vacío blanco e infinito, una luz pura que parece observarlo todo.",
+    biomeEffect: "La vida es perfecta, cristalina y eternamente inmutable. No hay decaimiento ni entropía.",
+    allowedBiomes: ["mountain", "plains", "coast"]
   }
 ];
