@@ -114,11 +114,20 @@ export function generateChunk(cx, cy) {
       points.push({ x: cx0 + Math.cos(ang) * r, y: cy0 + Math.sin(ang) * r });
     }
 
+    // --- Asignar Configuración Celeste ---
+    // Cada continente tiene su propio cielo, elegido de forma determinista con su semilla.
+    // Lo elegimos ANTES que los biomas para condicionar el ecosistema.
+    const sky = pickCelestialConfig(rng);
+
+    // Filtrar los biomas permitidos para este cielo
+    const allowed = BIOME_TYPES.filter(b => sky.allowedBiomes.includes(b.id));
+
     // Generar muchos más biomas para que funcionen como "regiones" y llenen el continente
     const biomeCount = 12 + Math.floor(rng() * 12); // Entre 12 y 24 biomas
     const biomes = [];
     for (let i = 0; i < biomeCount; i++) {
-      const type = BIOME_TYPES[Math.floor(rng() * BIOME_TYPES.length)];
+      // Elegir solo de entre los biomas permitidos por el cielo
+      const type = allowed[Math.floor(rng() * allowed.length)];
       const ang = rng() * Math.PI * 2;
       // Permitir que los biomas nazcan más cerca de las costas (hasta 0.75 del radio)
       const dist = rng() * baseR * 0.75; 
@@ -136,9 +145,6 @@ export function generateChunk(cx, cy) {
 
     const name = generateContinentName(rng);
 
-    // --- Asignar Configuración Celeste ---
-    // Cada continente tiene su propio cielo, elegido de forma determinista con su semilla.
-    const sky = pickCelestialConfig(rng);
 
     hostContinent = { points, variant, biomes, sky, name, cx0, cy0, notes: "" };
     applyContinentOverride(hostContinent);

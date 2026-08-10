@@ -76,7 +76,8 @@ export const CELESTIAL_CONFIGS = [
     color: "#e8c87a",
     desc: "Un sol y una luna danzan eternamente en el cielo de este mundo. Los ciclos son predecibles, la vida es equilibrada y diversa.",
     skyDesc: "El cielo alterna entre el oro del sol y la plata de la luna en ciclos regulares.",
-    biomeEffect: "La vida aquí sigue ritmos conocidos. Florecen todas las formas de existencia."
+    biomeEffect: "La vida aquí sigue ritmos conocidos. Florecen todas las formas de existencia.",
+    allowedBiomes: ["forest", "plains", "mountain", "swamp", "coast"]
   },
   {
     id: "twin_suns",
@@ -86,7 +87,8 @@ export const CELESTIAL_CONFIGS = [
     color: "#ff9944",
     desc: "Dos soles cruzan el cielo. Casi no hay noche. Las sombras son dobles y difusas.",
     skyDesc: "Dos astros ardientes recorren el firmamento. El crepúsculo apenas dura minutos.",
-    biomeEffect: "Los desiertos dominan el interior. Los bosques crecen densos en los polos. La vida es resistente y de colores oscuros para absorber menos calor."
+    biomeEffect: "Los desiertos dominan el interior. Los bosques crecen densos en los polos. La vida es resistente y de colores oscuros para absorber menos calor.",
+    allowedBiomes: ["desert", "volcanic", "mountain", "coast"]
   },
   {
     id: "twin_moons",
@@ -96,7 +98,8 @@ export const CELESTIAL_CONFIGS = [
     color: "#a0c8e8",
     desc: "Dos lunas bañan este mundo en una luz fría y plateada. El día es tenue; la noche, casi tan brillante como el crepúsculo.",
     skyDesc: "Las dos lunas crean mareas dobles y su luz plateada tiñe todo de azul y plata.",
-    biomeEffect: "La vida es principalmente nocturna. Las plantas tienen hojas translúcidas o plateadas. Los animales tienen ojos enormes y sentidos agudizados."
+    biomeEffect: "La vida es principalmente nocturna. Las plantas tienen hojas translúcidas o plateadas. Los animales tienen ojos enormes y sentidos agudizados.",
+    allowedBiomes: ["tundra", "swamp", "forest", "mountain", "coast"]
   },
   {
     id: "no_sun",
@@ -106,7 +109,8 @@ export const CELESTIAL_CONFIGS = [
     color: "#6680cc",
     desc: "No hay sol. Las lunas de este mundo emiten su propia luz fría y constante. Es un mundo de penumbra eterna y silencio.",
     skyDesc: "Un cielo de penumbra perpetua iluminado por lunas que brillan con luz propia como pequeñas estrellas.",
-    biomeEffect: "La vida es bioluminiscente. No existen plantas fotosintéticas; todo depende de energía geotérmica o química. Los seres son pálidos, ciegos o con sentidos alternativos."
+    biomeEffect: "La vida es bioluminiscente. No existen plantas fotosintéticas; todo depende de energía geotérmica o química. Los seres son pálidos, ciegos o con sentidos alternativos.",
+    allowedBiomes: ["tundra", "volcanic", "swamp", "mountain", "coast"]
   },
   {
     id: "impossible",
@@ -116,6 +120,7 @@ export const CELESTIAL_CONFIGS = [
     color: "#cc44ff",
     desc: "Las reglas de este cielo desafían la comprensión. Un eclipse eterno, anillos que cruzan el firmamento, o astros que orbitan sin sentido aparente.",
     skyDesc: "El cielo de este mundo sigue reglas propias que ningún cartógrafo ha podido explicar del todo.",
-    biomeEffect: "La vida aquí es completamente ajena a cualquier otra. Los visitantes feéricos reportan desorientación y pérdida del sentido del tiempo."
+    biomeEffect: "La vida aquí es completamente ajena a cualquier otra. Los visitantes feéricos reportan desorientación y pérdida del sentido del tiempo.",
+    allowedBiomes: ["forest", "plains", "mountain", "desert", "swamp", "tundra", "volcanic", "coast"] // Todos
   }
 ];
