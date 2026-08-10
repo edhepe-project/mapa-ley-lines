@@ -116,23 +116,8 @@ canvas.addEventListener("click", (e) => {
   if (dragged) return;
   const world = screenToWorld(e.clientX, e.clientY);
 
-  let closest = null, closestDist = Infinity;
-  for (const chunk of chunkCache.values()) {
-    for (const node of chunk.nodes) {
-      const d = Math.hypot(node.x - world.x, node.y - world.y);
-      if (d < closestDist) { closestDist = d; closest = node; }
-    }
-  }
-  // Radio de clic escalado
-  const hitRadiusWorld = 100 / camera.zoom;
-  if (closest && closestDist < hitRadiusWorld && (leyLinesVisible || routeMode)) {
-    if (routeMode) addToRoute(closest);
-    else openNodePanel(closest);
-    return;
-  }
-
+  // Prioridad 1: toque DENTRO del polígono de un continente
   if (!routeMode) {
-    // Estrategia 1: clic exacto dentro del polígono
     for (const chunk of chunkCache.values()) {
       for (const continent of chunk.continents) {
         if (pointInPolygon(world.x, world.y, continent.points)) {
@@ -141,10 +126,27 @@ canvas.addEventListener("click", (e) => {
         }
       }
     }
-    // Estrategia 2: fallback por proximidad al centro del continente.
-    // Útil cuando se hace clic en zonas cóncavas del polígono o en biomas en el borde.
+  }
+
+  // Prioridad 2: toque MUY cerca de un nodo (radio pequeño: 40px en pantalla)
+  const hitRadiusWorld = 40 / camera.zoom;
+  let closest = null, closestDist = Infinity;
+  for (const chunk of chunkCache.values()) {
+    for (const node of chunk.nodes) {
+      const d = Math.hypot(node.x - world.x, node.y - world.y);
+      if (d < closestDist) { closestDist = d; closest = node; }
+    }
+  }
+  if (closest && closestDist < hitRadiusWorld && (leyLinesVisible || routeMode)) {
+    if (routeMode) addToRoute(closest);
+    else openNodePanel(closest);
+    return;
+  }
+
+  // Prioridad 3: fallback por proximidad al centro del continente
+  if (!routeMode) {
     let nearestC = null, nearestD = Infinity;
-    const maxCenterDist = 12000; // radio máximo para considerar un continente cercano
+    const maxCenterDist = 12000;
     for (const chunk of chunkCache.values()) {
       for (const continent of chunk.continents) {
         const d = Math.hypot(continent.cx0 - world.x, continent.cy0 - world.y);
@@ -156,6 +158,7 @@ canvas.addEventListener("click", (e) => {
     }
   }
 });
+
 
 
 function getVisibleChunkRange() {
